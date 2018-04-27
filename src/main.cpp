@@ -1,8 +1,8 @@
 #include "ofMain.h"
 #include "ofApp.h"
-#include "Player.hpp";
-#include "Board.hpp";
-#include "Ghost.hpp";
+#include "Player.hpp"
+#include "Board.hpp"
+#include "Ghost.hpp"
 
 //========================================================================
 int main( ){

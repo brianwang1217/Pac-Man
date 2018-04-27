@@ -6,10 +6,8 @@
 //
 
 #include "Player.hpp"
-#include "Board.hpp"
 
 Player::Player() {
-    
 }
 
 Player::Player(int x, int y) {
@@ -21,10 +19,10 @@ Player::Player(int x, int y) {
     pos_y = y;
     current_direction = left;
     
-    pacman_left.load("\images\pacleft.png");
-    pacman_right.load("\images\pacright.png");
-    pacman_up.load("\images\pacup.png");
-    pacman_down.load("\images\pacdown.png");
+    pacman_left.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacleft.png");
+    pacman_right.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacright.png");
+    pacman_up.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacup.png");
+    pacman_down.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacdown.png");
         
     speed = 1.0f;
     lives = 3;
@@ -51,9 +49,9 @@ void Player::reset() {
 }
 
 void Player::move_up() {
-    if (can_move(up)) {
+    //if (can_move(up)) {
         current_direction = up;
-    }
+    //}
 }
 
 void Player::move_down() {
@@ -75,16 +73,17 @@ void Player::move_right() {
 }
 
 bool Player::can_move(direction dir) {
-    if (dir == up) {
-        return !(Board::board[this->pos_x - 1][this->pos_y] == Board::w);
-    } else if (dir == down) {
-        return !(Board::board[this->pos_x + 1][this->pos_y] == Board::w);
-    } else if (dir == left) {
-        return !(Board::board[this->pos_x][this->pos_y - 1] == Board::w);
-    } else if (dir == right) {
-        return !(Board::board[this->pos_x][this->pos_y + 1] == Board::w);
-    }
     
+    if (dir == up) {
+        return !(board[this->pos_x - 1][this->pos_y] == w);
+    } else if (dir == down) {
+        return !(board[this->pos_x + 1][this->pos_y] == w);
+    } else if (dir == left) {
+        return !(board[this->pos_x][this->pos_y - 1] == w);
+    } else if (dir == right) {
+        return !(board[this->pos_x][this->pos_y + 1] == w);
+    }
+
     return false;
 }
 

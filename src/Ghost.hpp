@@ -20,20 +20,21 @@ public:
     void move_at_intersection();
     void update();
     void draw();
+    void move_at_end();
     
     // Variables.
     int pos_x;
     int pos_y;
     
-    ofImage red_ghost;
-    ofImage green_ghost;
-    ofImage orange_ghost;
+    ofImage ghost_img;
     
     float speed;
     
     enum direction{up, down, left, right};
     direction current_direction;
     direction direction_arr[4] = {up, down, left, right};
+    
+    void load_image(ofImage img, string url);
     
     bool is_alive;
     bool can_move(direction dir);
