@@ -19,7 +19,7 @@ Ghost::Ghost(int x, int y) {
     speed = 1.0f;
     
     //red_ghost.load("../images/redghost.png");
-    //load_image(ghost_img, "/images/redghost.png");
+    load_image(ghost_img, "/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/redghost.png");
     
     current_direction = direction_arr[rand() % 4];
     while (!can_move(current_direction)) {
@@ -29,13 +29,13 @@ Ghost::Ghost(int x, int y) {
 
 void Ghost::update() {
     if (current_direction == up) {
-        pos_x -= 1;
-    } else if (current_direction == down) {
-        pos_x += 1;
-    } else if (current_direction == left) {
         pos_y -= 1;
-    } else if (current_direction == right) {
+    } else if (current_direction == down) {
         pos_y += 1;
+    } else if (current_direction == left) {
+        pos_x -= 1;
+    } else if (current_direction == right) {
+        pos_x += 1;
     }
 }
 

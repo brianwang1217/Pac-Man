@@ -7,8 +7,7 @@
 
 #include "Player.hpp"
 
-Player::Player() {
-}
+Player::Player() {}
 
 Player::Player(int x, int y) {
     is_alive = true;
@@ -20,9 +19,13 @@ Player::Player(int x, int y) {
     current_direction = left;
     
     pacman_left.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacleft.png");
+    pacman_left.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     pacman_right.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacright.png");
+    pacman_right.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     pacman_up.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacup.png");
+    pacman_up.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     pacman_down.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacdown.png");
+    pacman_down.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
         
     speed = 1.0f;
     lives = 3;
@@ -31,13 +34,13 @@ Player::Player(int x, int y) {
 
 void Player::update() {
     if (current_direction == up) {
-        pos_x -= 1;
-    } else if (current_direction == down) {
-        pos_x += 1;
-    } else if (current_direction == left) {
         pos_y -= 1;
-    } else if (current_direction == right) {
+    } else if (current_direction == down) {
         pos_y += 1;
+    } else if (current_direction == left) {
+        pos_x -= 1;
+    } else if (current_direction == right) {
+        pos_x += 1;
     }
 }
 
@@ -55,21 +58,21 @@ void Player::move_up() {
 }
 
 void Player::move_down() {
-    if (can_move(down)) {
+    //if (can_move(down)) {
         current_direction = down;
-    }
+    //}
 }
 
 void Player::move_left() {
-    if (can_move(left)) {
+    //if (can_move(left)) {
         current_direction = left;
-    }
+    //}
 }
 
 void Player::move_right() {
-    if (can_move(right)) {
+    //if (can_move(right)) {
         current_direction = right;
-    }
+    //}
 }
 
 bool Player::can_move(direction dir) {

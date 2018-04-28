@@ -5,6 +5,7 @@ void ofApp::setup(){
     game_started = false;
     
     player = Player(10, 5);
+    board_obj = Board();
     ghost1 = Ghost();
     ghost2 = Ghost();
     ghost3 = Ghost();
@@ -64,6 +65,8 @@ void ofApp::draw(){
         draw_game_over();
     }
     else {
+        board_obj.draw_board();
+        
         if (player.current_direction == Player::up) {
             player.pacman_up.draw(player.pos_x, player.pos_y);
         } else if (player.current_direction == Player::down) {
@@ -84,21 +87,21 @@ void ofApp::draw(){
 void ofApp::draw_game_start() {
     string start_message = "PAC-MAN\nPress 'B' to begin.";
     ofSetColor(100, 100, 100);
-    ofDrawBitmapString(start_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+    ofDrawBitmapString(start_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
 }
 
 void ofApp::draw_game_over() {
     string lose_message = "You Lost! Final Score: " + std::to_string(player.score);
     
     ofSetColor(0, 0, 0);
-    ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+    ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
 }
 
 void ofApp::draw_pause() {
     string pause_message = "Paused. Your current score: " + std::to_string(player.score);
     ofSetColor(0, 0, 0);
     
-    ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+    ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
 }
 
 //--------------------------------------------------------------

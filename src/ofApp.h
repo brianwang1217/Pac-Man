@@ -34,6 +34,7 @@ public:
 		
 private:
     Player player;
+    Board board_obj;
     Ghost ghost1;
     Ghost ghost2;
     Ghost ghost3;

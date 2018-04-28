@@ -28,9 +28,9 @@ public:
     void draw_dots();
     
     // Variables.
-    ofImage wall;
-    ofImage open_block;
-    ofImage dot_block;
+    ofImage wall_img;
+    ofImage open_block_img;
+    ofImage dot_block_img;
     
     
     

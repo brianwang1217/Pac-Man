@@ -28,6 +28,9 @@ public:
     void draw();
     
     // Variables.
+    //const float scale_variable_x = ofGetWindowWidth() / 30;
+    //const float scale_variable_y = ofGetWindowHeight() / 30;
+    
     ofImage pacman_left;
     ofImage pacman_up;
     ofImage pacman_right;

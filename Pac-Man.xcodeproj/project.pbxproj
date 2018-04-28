@@ -68,6 +68,9 @@
 		25069FA520933F8100D7FD17 /* redghost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redghost.png; sourceTree = "<group>"; };
 		25069FA620933F8100D7FD17 /* pacright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pacright.png; sourceTree = "<group>"; };
 		25069FA720933F8100D7FD17 /* pacleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pacleft.png; sourceTree = "<group>"; };
+		25069FA92094127100D7FD17 /* dot_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dot_block.png; sourceTree = "<group>"; };
+		25069FAA209413B800D7FD17 /* empty_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = empty_block.png; sourceTree = "<group>"; };
+		25069FAB2094167C00D7FD17 /* wall_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wall_block.png; sourceTree = "<group>"; };
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
 		52AFA1F08C420992CAAAE648 /* ofxSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSlider.h; path = ../../../addons/ofxGui/src/ofxSlider.h; sourceTree = SOURCE_ROOT; };
 		78D67A00EB899FAC09430597 /* ofxLabel.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxLabel.cpp; path = ../../../addons/ofxGui/src/ofxLabel.cpp; sourceTree = SOURCE_ROOT; };
@@ -106,6 +109,9 @@
 		25069F9D20933F0800D7FD17 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				25069FAB2094167C00D7FD17 /* wall_block.png */,
+				25069FAA209413B800D7FD17 /* empty_block.png */,
+				25069FA92094127100D7FD17 /* dot_block.png */,
 				25069FA320933F8100D7FD17 /* pacdown.png */,
 				25069FA720933F8100D7FD17 /* pacleft.png */,
 				25069FA620933F8100D7FD17 /* pacright.png */,
