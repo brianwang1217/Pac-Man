@@ -4,7 +4,7 @@
 void ofApp::setup(){
     game_started = false;
     
-    player = Player(10, 5);
+    player = Player(15, 23);
     board_obj = Board();
     ghost1 = Ghost();
     ghost2 = Ghost();
@@ -17,7 +17,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    if (game_started && !is_paused && !game_over) {
+    if (game_started) {
         // If player collides with a ghost.
         
         /** Write a collision method elsewhere to check for multiple collisions. */
@@ -25,6 +25,12 @@ void ofApp::update(){
             && ghost2.pos_x != player.pos_x && ghost2.pos_y != player.pos_y
             && ghost3.pos_x != player.pos_x && ghost3.pos_y != player.pos_y
             && ghost4.pos_x != player.pos_x && ghost4.pos_y != player.pos_y) {
+            
+            // Check if player collides with dotted block.
+            if (board_obj.num_dots[player.pos_y][player.pos_x] == 1) {
+                player.score += 1;
+                board_obj.num_dots[player.pos_y][player.pos_x] = 0;
+            }
             
             player.update();
             
@@ -36,6 +42,8 @@ void ofApp::update(){
         
         // If player collides with one of the ghosts.
         else {
+            player.lives -= 1;
+            
             // If player has enough lives to continue.
             if (player.lives > 1) {
                 player.reset();
@@ -45,6 +53,8 @@ void ofApp::update(){
                 ghost2.update();
                 ghost3.update();
                 ghost4.update();
+            } else {
+                game_over = true;
             }
         }
     }
@@ -67,14 +77,18 @@ void ofApp::draw(){
     else {
         board_obj.draw_board();
         
+        // Draw score and number of lives.
+        string stat_message = "Lives: " + std::to_string(player.lives) + "\nScore: " + std::to_string(player.score);
+        ofDrawBitmapString(stat_message, ofGetWindowWidth() - 200, 10);
+        
         if (player.current_direction == Player::up) {
-            player.pacman_up.draw(player.pos_x, player.pos_y);
+            player.pacman_up.draw(player.pos_x * ofGetWindowWidth() / 28, player.pos_y * ofGetWindowHeight() / 30);
         } else if (player.current_direction == Player::down) {
-            player.pacman_down.draw(player.pos_x, player.pos_y);
+            player.pacman_down.draw(player.pos_x * ofGetWindowWidth() / 28, player.pos_y * ofGetWindowHeight() / 30);
         } else if (player.current_direction == Player::left) {
-            player.pacman_left.draw(player.pos_x, player.pos_y);
+            player.pacman_left.draw(player.pos_x * ofGetWindowWidth() / 28, player.pos_y * ofGetWindowHeight() / 30);
         } else if (player.current_direction == Player::right) {
-            player.pacman_right.draw(player.pos_x, player.pos_y);
+            player.pacman_right.draw(player.pos_x * ofGetWindowWidth() / 28, player.pos_y * ofGetWindowHeight() / 30);
         }
         
         ghost1.draw();
@@ -99,9 +113,10 @@ void ofApp::draw_game_over() {
 
 void ofApp::draw_pause() {
     string pause_message = "Paused. Your current score: " + std::to_string(player.score);
+    string stat_message = "Lives: " + std::to_string(player.lives) + "\nScore: " + std::to_string(player.score);
     ofSetColor(0, 0, 0);
     
-    ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
+    ofDrawBitmapString(pause_message + "\n" + stat_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
 }
 
 //--------------------------------------------------------------

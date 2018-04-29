@@ -38,10 +38,12 @@ public:
     
     int lives;
     
-    int spawn_x;
-    int spawn_y;
+    float spawn_x;
+    float spawn_y;
     int pos_x;
     int pos_y;
+    float map_x;
+    float map_y;
     
     int score;
     

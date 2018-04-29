@@ -59,12 +59,12 @@ void Board::draw_board() {
             if (board[i][j] == w) {
                 wall_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
             } else {
-                open_block_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
+                if (num_dots[i][j] == 0) {
+                    open_block_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
+                } else {
+                    dot_block_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
+                }
             }
         }
     }
-}
-
-void Board::draw_dots() {
-    
 }

@@ -15,7 +15,9 @@ Player::Player(int x, int y) {
     spawn_x = x;
     spawn_y = y;
     pos_x = x;
+    map_x = pos_x * 28 / ofGetWindowWidth();
     pos_y = y;
+    map_y = pos_y * 30 / ofGetWindowWidth();
     current_direction = left;
     
     pacman_left.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacleft.png");
@@ -42,6 +44,9 @@ void Player::update() {
     } else if (current_direction == right) {
         pos_x += 1;
     }
+    
+    map_x = pos_x * 28 / ofGetWindowWidth();
+    map_y = pos_y * 28 / ofGetWindowHeight();
 }
 
 void Player::reset() {
@@ -64,27 +69,27 @@ void Player::move_down() {
 }
 
 void Player::move_left() {
-    //if (can_move(left)) {
+    if (can_move(left)) {
         current_direction = left;
-    //}
+    }
 }
 
 void Player::move_right() {
-    //if (can_move(right)) {
+    if (can_move(right)) {
         current_direction = right;
-    //}
+    }
 }
 
 bool Player::can_move(direction dir) {
     
     if (dir == up) {
-        return !(board[this->pos_x - 1][this->pos_y] == w);
+        return !(board[(this->pos_y - 1)][this->pos_x] == w);
     } else if (dir == down) {
-        return !(board[this->pos_x + 1][this->pos_y] == w);
+        return !(board[(this->pos_y + 1)][this->pos_x] == w);
     } else if (dir == left) {
-        return !(board[this->pos_x][this->pos_y - 1] == w);
+        return !(board[(this->pos_y)][this->pos_x - 1] == w);
     } else if (dir == right) {
-        return !(board[this->pos_x][this->pos_y + 1] == w);
+        return !(board[this->pos_y][this->pos_x + 1] == w);
     }
 
     return false;
@@ -92,13 +97,13 @@ bool Player::can_move(direction dir) {
 
 void Player::draw() {
     if (current_direction == up) {
-        pacman_up.draw(pos_x, pos_y);
+        pacman_up.draw(pos_x * ofGetWindowWidth() / 28, pos_y * ofGetWindowHeight() / 30);
     } else if (current_direction == down) {
-        pacman_down.draw(pos_x, pos_y);
+        pacman_down.draw(pos_x * ofGetWindowWidth() / 28, pos_y * ofGetWindowHeight() / 30);
     } else if (current_direction == left) {
-        pacman_left.draw(pos_x, pos_y);
+        pacman_left.draw(pos_x * ofGetWindowWidth() / 28, pos_y * ofGetWindowHeight() / 30);
     } else if (current_direction == right) {
-        pacman_right.draw(pos_x, pos_y);
+        pacman_right.draw(pos_x * ofGetWindowWidth() / 28, pos_y * ofGetWindowHeight() / 30);
     }
 }
 

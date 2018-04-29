@@ -9,7 +9,19 @@
 #include "Board.hpp"
 #include <cstdlib>
 
-Ghost::Ghost() {}
+Ghost::Ghost() {
+    pos_x = 50;
+    pos_y = 0;
+    
+    is_alive = true;
+    speed = 1.0f;
+    
+    //red_ghost.load("../images/redghost.png");
+    ghost_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/redghost.png");
+    ghost_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
+    
+    current_direction = direction_arr[rand() % 4];
+}
 
 Ghost::Ghost(int x, int y) {
     pos_x = x;
@@ -19,7 +31,8 @@ Ghost::Ghost(int x, int y) {
     speed = 1.0f;
     
     //red_ghost.load("../images/redghost.png");
-    load_image(ghost_img, "/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/redghost.png");
+    ghost_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/redghost.png");
+    ghost_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     
     current_direction = direction_arr[rand() % 4];
     while (!can_move(current_direction)) {
@@ -41,10 +54,6 @@ void Ghost::update() {
 
 void Ghost::draw() {
     ghost_img.draw(pos_x, pos_y);
-}
-
-void Ghost::load_image(ofImage img, string url) {
-    img.load(url);
 }
 
 bool Ghost::can_move(direction dir) {
