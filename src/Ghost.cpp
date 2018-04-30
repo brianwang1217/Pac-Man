@@ -60,7 +60,11 @@ void Ghost::update() {
         }
     } else if (current_direction == left) {
         if (can_move(left) && !at_intersection()) {
-            pos_x -= 1;
+            if (pos_x < 0) {
+                pos_x = 27;
+            } else {
+                pos_x -= 1;
+            }
         } else if (at_intersection()) {
             change_direction();
         } else {
@@ -68,7 +72,11 @@ void Ghost::update() {
         }
     } else if (current_direction == right) {
         if (can_move(right) && !at_intersection()) {
-            pos_x += 1;
+            if (pos_x > 27) {
+                pos_x = 0;
+            } else {
+                pos_x += 1;
+            }
         } else if (at_intersection()) {
             change_direction();
         } else {
@@ -137,7 +145,7 @@ void Ghost::move_at_intersection() {
 }
 
 void Ghost::move_at_end() {
-    if (!(current_direction)) {
+    if (!can_move(current_direction)) {
         int rand_direction = rand() % 4;
         while (!can_move(direction_arr[rand_direction])) {
             rand_direction = rand() % 4;

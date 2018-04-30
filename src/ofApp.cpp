@@ -18,45 +18,49 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    if (game_started && can_move) {
+    ghost1.update();
+    ghost2.update();
+    ghost3.update();
+    ghost4.update();
+    if (game_started && !game_over && can_move) {
         // If player collides with a ghost.
         
-        /** Write a collision method elsewhere to check for multiple collisions. */
-        if ((ghost1.pos_x != player.pos_x && ghost1.pos_y != player.pos_y)
-            || (ghost2.pos_x != player.pos_x && ghost2.pos_y != player.pos_y)
-            || (ghost3.pos_x != player.pos_x && ghost3.pos_y != player.pos_y)
-            || (ghost4.pos_x != player.pos_x && ghost4.pos_y != player.pos_y)) {
-            
-            // Check if player collides with dotted block.
-            if (board_obj.num_dots[player.pos_y][player.pos_x] == 1) {
-                player.score += 1;
-                board_obj.num_dots[player.pos_y][player.pos_x] = 0;
-            }
-            
-            player.update();
-            
-            ghost1.update();
-            ghost2.update();
-            ghost3.update();
-            ghost4.update();
-        }
-        
-        // If player collides with one of the ghosts.
-        else {
+        if ((ghost1.pos_x == player.pos_x && ghost1.pos_y == player.pos_y)
+            || (ghost2.pos_x == player.pos_x && ghost2.pos_y == player.pos_y)
+            || (ghost3.pos_x == player.pos_x && ghost3.pos_y == player.pos_y)
+            || (ghost4.pos_x == player.pos_x && ghost4.pos_y == player.pos_y)) {
             player.lives -= 1;
             
             // If player has enough lives to continue.
             if (player.lives >= 1) {
                 player.reset();
                 player.update();
-                
+                /**
                 ghost1.update();
                 ghost2.update();
                 ghost3.update();
-                ghost4.update();
+                ghost4.update();*/
             } else {
                 game_over = true;
             }
+        } else {
+            // Check if player collides with dotted block.
+            if (board_obj.num_dots[player.pos_y][player.pos_x] == 1) {
+                player.score += 1;
+                board_obj.num_dots[player.pos_y][player.pos_x] = 0;
+            }
+            
+            if (player.pos_y == board_obj.refresh_y && player.pos_x == board_obj.refresh_x) {
+                board_obj.refresh_board();
+                board_obj.has_refreshed = true;
+            }
+            
+            player.update();
+            /**
+            ghost1.update();
+            ghost2.update();
+            ghost3.update();
+            ghost4.update();*/
         }
     }
     
