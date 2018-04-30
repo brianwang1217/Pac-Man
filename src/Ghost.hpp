@@ -21,6 +21,7 @@ public:
     void update();
     void draw();
     void move_at_end();
+    void change_direction();
     
     // Variables.
     int pos_x;

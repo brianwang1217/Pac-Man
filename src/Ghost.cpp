@@ -10,8 +10,8 @@
 #include <cstdlib>
 
 Ghost::Ghost() {
-    pos_x = 50;
-    pos_y = 0;
+    pos_x = 13;
+    pos_y = 14;
     
     is_alive = true;
     speed = 1.0f;
@@ -20,7 +20,8 @@ Ghost::Ghost() {
     ghost_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/redghost.png");
     ghost_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     
-    current_direction = direction_arr[rand() % 4];
+    //current_direction = direction_arr[rand() % 4];
+    current_direction = up;
 }
 
 Ghost::Ghost(int x, int y) {
@@ -42,49 +43,86 @@ Ghost::Ghost(int x, int y) {
 
 void Ghost::update() {
     if (current_direction == up) {
-        pos_y -= 1;
+        if (can_move(up) && !at_intersection()) {
+            pos_y -= 1;
+        } else if (at_intersection()) {
+            change_direction();
+        } else {
+            move_at_end();
+        }
     } else if (current_direction == down) {
-        pos_y += 1;
+        if (can_move(down) && !at_intersection()) {
+            pos_y += 1;
+        } else if (at_intersection()) {
+            change_direction();
+        } else {
+            move_at_end();
+        }
     } else if (current_direction == left) {
-        pos_x -= 1;
+        if (can_move(left) && !at_intersection()) {
+            pos_x -= 1;
+        } else if (at_intersection()) {
+            change_direction();
+        } else {
+            move_at_end();
+        }
     } else if (current_direction == right) {
-        pos_x += 1;
+        if (can_move(right) && !at_intersection()) {
+            pos_x += 1;
+        } else if (at_intersection()) {
+            change_direction();
+        } else {
+            move_at_end();
+        }
     }
 }
 
 void Ghost::draw() {
-    ghost_img.draw(pos_x, pos_y);
+    ghost_img.draw(pos_x * ofGetWindowWidth() / 28, pos_y * ofGetWindowHeight() / 30);
 }
 
 bool Ghost::can_move(direction dir) {
-    /**
     if (dir == up) {
-        return !(Board::board[this->pos_x - 1][this->pos_y] == Board::w);
+        return !(board[(this->pos_y - 1)][this->pos_x] == w);
     } else if (dir == down) {
-        return !(Board::board[this->pos_x + 1][this->pos_y] == Board::w);
+        if (pos_y + 1 < 30) {
+            return !(board[(this->pos_y + 1)][this->pos_x] == w);
+        } else {
+            return false;
+        }
     } else if (dir == left) {
-        return !(Board::board[this->pos_x][this->pos_y - 1] == Board::w);
+        if (pos_x > 0) {
+            return !(board[(this->pos_y)][this->pos_x - 1] == w);
+        } else {
+            return true;
+        }
     } else if (dir == right) {
-        return !(Board::board[this->pos_x][this->pos_y + 1] == Board::w);
+        if (pos_x < 27) {
+            return !(board[this->pos_y][this->pos_x + 1] == w);
+        } else {
+            return true;
+        }
     }
-    **/
+    
     return false;
 }
 
 bool Ghost::at_intersection() {
     // Automatically 2 paths: forwards and backwards; need 3 or 4 for it to be intersection.
     int num_paths = 0;
-    /**
-    if (Board::board[this->pos_x - 1][this->pos_y] == Board::o) {
-        num_paths++;
-    } else if (Board::board[this->pos_x + 1][this->pos_y] == Board::o) {
-        num_paths++;
-    } else if (Board::board[this->pos_x][this->pos_y - 1] == Board::o) {
-        num_paths++;
-    } else if (Board::board[this->pos_x][this->pos_y + 1] == Board::o) {
+    
+    if (board[this->pos_y - 1][this->pos_x] == o) {
         num_paths++;
     }
-     **/
+    if (board[this->pos_y + 1][this->pos_x] == o) {
+        num_paths++;
+    }
+    if (board[this->pos_y][this->pos_x - 1] == o) {
+        num_paths++;
+    }
+    if (board[this->pos_y][this->pos_x + 1] == o) {
+        num_paths++;
+    }
     
     return num_paths >= 3;
 }
@@ -99,13 +137,49 @@ void Ghost::move_at_intersection() {
 }
 
 void Ghost::move_at_end() {
-    if (!can_move(current_direction)) {
+    if (!(current_direction)) {
         int rand_direction = rand() % 4;
         while (!can_move(direction_arr[rand_direction])) {
             rand_direction = rand() % 4;
         }
         
         current_direction = direction_arr[rand_direction];
+    }
+}
+
+void Ghost::change_direction() {
+    int rand_direction = rand() % 4;
+    while (direction_arr[rand_direction] == current_direction) {
+        rand_direction = rand() % 4;
+    }
+    
+    current_direction = direction_arr[rand_direction];
+
+    // Move the ghost out of the intersection after changing direction.
+    if (current_direction == up) {
+        if (can_move(up)) {
+            pos_y -= 1;
+        } else {
+            move_at_end();
+        }
+    } else if (current_direction == down) {
+        if (can_move(down)) {
+            pos_y += 1;
+        } else {
+            move_at_end();
+        }
+    } else if (current_direction == left) {
+        if (can_move(left)) {
+            pos_x -= 1;
+        } else {
+            move_at_end();
+        }
+    } else if (current_direction == right) {
+        if (can_move(right)) {
+            pos_x += 1;
+        } else {
+            move_at_end();
+        }
     }
 }
 

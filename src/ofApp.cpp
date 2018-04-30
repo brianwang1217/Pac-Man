@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
     game_started = false;
+    can_move = true;
     
     player = Player(15, 23);
     board_obj = Board();
@@ -17,14 +18,14 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    if (game_started) {
+    if (game_started && can_move) {
         // If player collides with a ghost.
         
         /** Write a collision method elsewhere to check for multiple collisions. */
-        if (ghost1.pos_x != player.pos_x && ghost1.pos_y != player.pos_y
-            && ghost2.pos_x != player.pos_x && ghost2.pos_y != player.pos_y
-            && ghost3.pos_x != player.pos_x && ghost3.pos_y != player.pos_y
-            && ghost4.pos_x != player.pos_x && ghost4.pos_y != player.pos_y) {
+        if ((ghost1.pos_x != player.pos_x && ghost1.pos_y != player.pos_y)
+            || (ghost2.pos_x != player.pos_x && ghost2.pos_y != player.pos_y)
+            || (ghost3.pos_x != player.pos_x && ghost3.pos_y != player.pos_y)
+            || (ghost4.pos_x != player.pos_x && ghost4.pos_y != player.pos_y)) {
             
             // Check if player collides with dotted block.
             if (board_obj.num_dots[player.pos_y][player.pos_x] == 1) {
@@ -45,7 +46,7 @@ void ofApp::update(){
             player.lives -= 1;
             
             // If player has enough lives to continue.
-            if (player.lives > 1) {
+            if (player.lives >= 1) {
                 player.reset();
                 player.update();
                 
@@ -57,6 +58,16 @@ void ofApp::update(){
                 game_over = true;
             }
         }
+    }
+    
+    if (player.current_direction == player.up) {
+        can_move = player.move_up();
+    } else if (player.current_direction == player.down) {
+        can_move = player.move_down();
+    } else if (player.current_direction == player.left) {
+        can_move = player.move_left();
+    } else if (player.current_direction == player.right) {
+        can_move = player.move_right();
     }
 }
 

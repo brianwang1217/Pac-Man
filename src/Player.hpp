@@ -21,10 +21,10 @@ public:
     void setup();
     void update();
     void reset();
-    void move_up();
-    void move_down();
-    void move_left();
-    void move_right();
+    bool move_up();
+    bool move_down();
+    bool move_left();
+    bool move_right();
     void draw();
     
     // Variables.

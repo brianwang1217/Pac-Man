@@ -40,9 +40,18 @@ void Player::update() {
     } else if (current_direction == down) {
         pos_y += 1;
     } else if (current_direction == left) {
-        pos_x -= 1;
+        if (pos_x < 0) {
+            pos_x = 27;
+        } else {
+            pos_x -= 1;
+        }
     } else if (current_direction == right) {
-        pos_x += 1;
+        if (pos_x > 27) {
+            pos_x = 0;
+            
+        } else {
+            pos_x += 1;
+        }
     }
     
     map_x = pos_x * 28 / ofGetWindowWidth();
@@ -56,28 +65,36 @@ void Player::reset() {
     current_direction = left;
 }
 
-void Player::move_up() {
-    //if (can_move(up)) {
+bool Player::move_up() {
+    if (can_move(up)) {
         current_direction = up;
-    //}
+        return true;
+    }
+    return false;
 }
 
-void Player::move_down() {
-    //if (can_move(down)) {
+bool Player::move_down() {
+    if (can_move(down)) {
         current_direction = down;
-    //}
+        return true;
+    }
+    return false;
 }
 
-void Player::move_left() {
+bool Player::move_left() {
     if (can_move(left)) {
         current_direction = left;
+        return true;
     }
+    return false;
 }
 
-void Player::move_right() {
+bool Player::move_right() {
     if (can_move(right)) {
         current_direction = right;
+        return true;
     }
+    return false;
 }
 
 bool Player::can_move(direction dir) {
@@ -85,11 +102,23 @@ bool Player::can_move(direction dir) {
     if (dir == up) {
         return !(board[(this->pos_y - 1)][this->pos_x] == w);
     } else if (dir == down) {
-        return !(board[(this->pos_y + 1)][this->pos_x] == w);
+        if (pos_y + 1 < 30) {
+            return !(board[(this->pos_y + 1)][this->pos_x] == w);
+        } else {
+            return false;
+        }
     } else if (dir == left) {
-        return !(board[(this->pos_y)][this->pos_x - 1] == w);
+        if (pos_x > 0) {
+            return !(board[(this->pos_y)][this->pos_x - 1] == w);
+        } else {
+            return true;
+        }
     } else if (dir == right) {
-        return !(board[this->pos_y][this->pos_x + 1] == w);
+        if (pos_x < 27) {
+            return !(board[this->pos_y][this->pos_x + 1] == w);
+        } else {
+            return true;
+        }
     }
 
     return false;
