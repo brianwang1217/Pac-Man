@@ -7,8 +7,14 @@
 
 #include "Player.hpp"
 
+/*:
+    Empty constructor.
+ */
 Player::Player() {}
 
+/*:
+    Constructor taking in x and y coordinate for Player.
+ */
 Player::Player(int x, int y) {
     is_alive = true;
     
@@ -20,6 +26,7 @@ Player::Player(int x, int y) {
     map_y = pos_y * 30 / ofGetWindowWidth();
     current_direction = left;
     
+    // Load images and resize them to fit the screen.
     pacman_left.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacleft.png");
     pacman_left.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     pacman_right.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacright.png");
@@ -28,18 +35,23 @@ Player::Player(int x, int y) {
     pacman_up.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     pacman_down.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacdown.png");
     pacman_down.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
-        
+    
+    // Other statistics to keep track of.
     speed = 1.0f;
     lives = 3;
     score = 0;
 }
 
+/*:
+    Call funciton to update player position.
+ */
 void Player::update() {
     if (current_direction == up) {
         pos_y -= 1;
     } else if (current_direction == down) {
         pos_y += 1;
     } else if (current_direction == left) {
+        // Makes sure the player wraps around to other side instead of endlessly going to the left.
         if (pos_x < 0) {
             pos_x = 27;
         } else {
@@ -58,6 +70,9 @@ void Player::update() {
     map_y = pos_y * 28 / ofGetWindowHeight();
 }
 
+/*:
+    After death, respawns the player at point of origin.
+ */
 void Player::reset() {
     lives -= 1;
     pos_x = spawn_x;
@@ -65,6 +80,9 @@ void Player::reset() {
     current_direction = left;
 }
 
+/*:
+    Moves up if capable. Returns true if able.
+ */
 bool Player::move_up() {
     if (can_move(up)) {
         current_direction = up;
@@ -73,6 +91,9 @@ bool Player::move_up() {
     return false;
 }
 
+/*:
+    Moves down if capable. Returns true if able.
+ */
 bool Player::move_down() {
     if (can_move(down)) {
         current_direction = down;
@@ -81,6 +102,9 @@ bool Player::move_down() {
     return false;
 }
 
+/*:
+    Moves left if capable. Returns true if able.
+ */
 bool Player::move_left() {
     if (can_move(left)) {
         current_direction = left;
@@ -89,6 +113,9 @@ bool Player::move_left() {
     return false;
 }
 
+/*:
+    Moves right if capable. Returns true if able.
+ */
 bool Player::move_right() {
     if (can_move(right)) {
         current_direction = right;
@@ -97,6 +124,9 @@ bool Player::move_right() {
     return false;
 }
 
+/*:
+    Checks if player can move in a certain direction.
+ */
 bool Player::can_move(direction dir) {
     
     if (dir == up) {
@@ -124,6 +154,9 @@ bool Player::can_move(direction dir) {
     return false;
 }
 
+/*:
+    Draws player with different ofImages depending on player direction, at x and y coordinate (scaled to fit).
+ */
 void Player::draw() {
     if (current_direction == up) {
         pacman_up.draw(pos_x * ofGetWindowWidth() / 28, pos_y * ofGetWindowHeight() / 30);

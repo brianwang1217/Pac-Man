@@ -9,6 +9,9 @@
 #include "Board.hpp"
 #include <cstdlib>
 
+/*:
+    Constructor for ghost with no parameters.
+ */
 Ghost::Ghost() {
     pos_x = 13;
     pos_y = 14;
@@ -24,6 +27,9 @@ Ghost::Ghost() {
     current_direction = up;
 }
 
+/*:
+    Constructor taking in two parameters for its x and y coordinates.
+ */
 Ghost::Ghost(int x, int y) {
     pos_x = x;
     pos_y = y;
@@ -41,16 +47,28 @@ Ghost::Ghost(int x, int y) {
     }
 }
 
+/*:
+    Updates Ghost object by changing x or y coordinates based on the character's ability to move in a certain direction.
+ */
 void Ghost::update() {
+    // If the ghost is currently moving up...
     if (current_direction == up) {
+        // and can continue to move up and is not at an itersection.
         if (can_move(up) && !at_intersection()) {
             pos_y -= 1;
-        } else if (at_intersection()) {
+        }
+        // but is at an intersection.
+        else if (at_intersection()) {
             change_direction();
-        } else {
+        }
+        // but can no longer continue moving up and must change direction.
+        else {
             move_at_end();
         }
-    } else if (current_direction == down) {
+    }
+    
+    // If the ghost is currently moving down.
+    else if (current_direction == down) {
         if (can_move(down) && !at_intersection()) {
             pos_y += 1;
         } else if (at_intersection()) {
@@ -58,8 +76,12 @@ void Ghost::update() {
         } else {
             move_at_end();
         }
-    } else if (current_direction == left) {
+    }
+    
+    // If the ghost is currently moving left.
+    else if (current_direction == left) {
         if (can_move(left) && !at_intersection()) {
+            // We want the ghost to wrap around the map instead of walking off the board forever.
             if (pos_x < 0) {
                 pos_x = 27;
             } else {
@@ -70,8 +92,12 @@ void Ghost::update() {
         } else {
             move_at_end();
         }
-    } else if (current_direction == right) {
+    }
+    
+    // If the ghost is currently moving right.
+    else if (current_direction == right) {
         if (can_move(right) && !at_intersection()) {
+            // We want the ghost to wrap around the map instead of walking off the board forever.
             if (pos_x > 27) {
                 pos_x = 0;
             } else {
@@ -85,12 +111,19 @@ void Ghost::update() {
     }
 }
 
+/*:
+    Draws ghost at current x and y coordinate.
+ */
 void Ghost::draw() {
     ghost_img.draw(pos_x * ofGetWindowWidth() / 28, pos_y * ofGetWindowHeight() / 30);
 }
 
+/*:
+    Checks if the ghost can move in a certain direction.
+ */
 bool Ghost::can_move(direction dir) {
     if (dir == up) {
+        // Check if the block in front of the ghost is a wall or open block.
         return !(board[(this->pos_y - 1)][this->pos_x] == w);
     } else if (dir == down) {
         if (pos_y + 1 < 30) {
@@ -114,11 +147,14 @@ bool Ghost::can_move(direction dir) {
     
     return false;
 }
-
+/*:
+    Checks if the ghost is at an intersection (
+ */
 bool Ghost::at_intersection() {
     // Automatically 2 paths: forwards and backwards; need 3 or 4 for it to be intersection.
     int num_paths = 0;
     
+    // Check for open blocks next to player position.
     if (board[this->pos_y - 1][this->pos_x] == o) {
         num_paths++;
     }
@@ -135,8 +171,12 @@ bool Ghost::at_intersection() {
     return num_paths >= 3;
 }
 
+/*:
+    If at intersection, move in a random direction.
+ */
 void Ghost::move_at_intersection() {
     int rand_direction = rand() % 4;
+    // Keep rerolling direction until ghost can move.
     while (!can_move(direction_arr[rand_direction])) {
         rand_direction = rand() % 4;
     }
@@ -144,6 +184,9 @@ void Ghost::move_at_intersection() {
     current_direction = direction_arr[rand_direction];
 }
 
+/*:
+    Once the ghost meets wall, it tries to change direction.
+ */
 void Ghost::move_at_end() {
     if (!can_move(current_direction)) {
         int rand_direction = rand() % 4;
@@ -155,6 +198,9 @@ void Ghost::move_at_end() {
     }
 }
 
+/*:
+    Changes direction randomly until it can move in that direction.
+ */
 void Ghost::change_direction() {
     int rand_direction = rand() % 4;
     while (direction_arr[rand_direction] == current_direction) {

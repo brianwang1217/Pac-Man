@@ -7,6 +7,8 @@ void ofApp::setup(){
     
     player = Player(15, 23);
     board_obj = Board();
+    
+    // Ghosts.
     ghost1 = Ghost();
     ghost2 = Ghost();
     ghost3 = Ghost();
@@ -18,13 +20,16 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
     ghost1.update();
     ghost2.update();
     ghost3.update();
     ghost4.update();
+    
+    // While game is in progress and player can move in direction.
     if (game_started && !game_over && can_move) {
-        // If player collides with a ghost.
         
+        // If player collides with a ghost.
         if ((ghost1.pos_x == player.pos_x && ghost1.pos_y == player.pos_y)
             || (ghost2.pos_x == player.pos_x && ghost2.pos_y == player.pos_y)
             || (ghost3.pos_x == player.pos_x && ghost3.pos_y == player.pos_y)
@@ -35,11 +40,6 @@ void ofApp::update(){
             if (player.lives >= 1) {
                 player.reset();
                 player.update();
-                /**
-                ghost1.update();
-                ghost2.update();
-                ghost3.update();
-                ghost4.update();*/
             } else {
                 game_over = true;
             }
@@ -50,20 +50,18 @@ void ofApp::update(){
                 board_obj.num_dots[player.pos_y][player.pos_x] = 0;
             }
             
+            // Check if player collides with refresh power-up.
             if (player.pos_y == board_obj.refresh_y && player.pos_x == board_obj.refresh_x) {
+                // If collides, readd dots to the board.
                 board_obj.refresh_board();
                 board_obj.has_refreshed = true;
             }
             
             player.update();
-            /**
-            ghost1.update();
-            ghost2.update();
-            ghost3.update();
-            ghost4.update();*/
         }
     }
     
+    // Gets player direction, and checks if player can continue moving in that direction.
     if (player.current_direction == player.up) {
         can_move = player.move_up();
     } else if (player.current_direction == player.down) {
@@ -96,6 +94,7 @@ void ofApp::draw(){
         string stat_message = "Lives: " + std::to_string(player.lives) + "\nScore: " + std::to_string(player.score);
         ofDrawBitmapString(stat_message, ofGetWindowWidth() - 200, 10);
         
+        // Draw player depending on his/her direction.
         if (player.current_direction == Player::up) {
             player.pacman_up.draw(player.pos_x * ofGetWindowWidth() / 28, player.pos_y * ofGetWindowHeight() / 30);
         } else if (player.current_direction == Player::down) {
@@ -138,6 +137,8 @@ void ofApp::draw_pause() {
 void ofApp::keyPressed(int key){
     int upper_key = toupper(key);
     
+    // WASD for standard movement controls.
+    // B for begin, P for pause.
     if (upper_key == 'W') {
         player.move_up();
     } else if (upper_key == 'A') {

@@ -7,6 +7,7 @@
 
 #include "Board.hpp"
 
+// Board to be played on.
 block_type board[30][28] =
 {
     {w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w},
@@ -41,6 +42,9 @@ block_type board[30][28] =
     {w, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, w}
 };
 
+/*:
+    Constructor with no parameters.
+ */
 Board::Board() {
     // Load images.
     wall_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/wall_block.png");
@@ -59,6 +63,9 @@ Board::Board() {
     has_refreshed = true;
 }
 
+/*:
+    Draws board given 2D array of block_type as well as dot 2D array.
+ */
 void Board::draw_board() {
     // If there are no dots left, draw refresh power up at random xy coord.
     if (count_dots() == 0) {
@@ -72,11 +79,13 @@ void Board::draw_board() {
         }
     }
     
+    // Draw wall if 'w'; if 'o', draw either dotted or empty open block.
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 28; j++) {
             if (board[i][j] == w) {
                 wall_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
             } else {
+                // If open block is empty.
                 if (num_dots[i][j] == 0) {
                     open_block_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
                     
@@ -84,31 +93,38 @@ void Board::draw_board() {
                     if (refresh_x == j && refresh_y == i) {
                         refresh_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
                     }
-                } else {
+                }
+                // If open block contains a dot on it.
+                else {
                     dot_block_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
                 }
             }
         }
     }
     
+    // Reset power-up coords and remove from board if power-up has been taken.
     if (has_refreshed) {
         refresh_x = -1;
         refresh_y = -1;
     }
 }
 
+/*:
+    Count the number of dots in the 2D num_dots array. If there are no dots, then player has cleared the board.
+ */
 int Board::count_dots() {
     int dot_count = 0;
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 28; j++) {
-            if (num_dots[i][j] == 1) {
-                dot_count++;
-            }
+            dot_count += num_dots[i][j];
         }
     }
     return dot_count;
 }
 
+/*:
+    Refreshes board by resetting num_dots array to its original values.
+ */
 void Board::refresh_board() {
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 28; j++) {
