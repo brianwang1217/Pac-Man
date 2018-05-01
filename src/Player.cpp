@@ -21,9 +21,7 @@ Player::Player(int x, int y) {
     spawn_x = x;
     spawn_y = y;
     pos_x = x;
-    map_x = pos_x * 28 / ofGetWindowWidth();
     pos_y = y;
-    map_y = pos_y * 30 / ofGetWindowWidth();
     current_direction = left;
     
     // Load images and resize them to fit the screen.
@@ -65,16 +63,12 @@ void Player::update() {
             pos_x += 1;
         }
     }
-    
-    map_x = pos_x * 28 / ofGetWindowWidth();
-    map_y = pos_y * 28 / ofGetWindowHeight();
 }
 
 /*:
     After death, respawns the player at point of origin.
  */
 void Player::reset() {
-    lives -= 1;
     pos_x = spawn_x;
     pos_y = spawn_y;
     current_direction = left;

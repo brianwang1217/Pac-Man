@@ -4,6 +4,7 @@
 #include "Player.hpp"
 #include "Ghost.hpp"
 #include "Board.hpp"
+#include <cmath>
 
 class ofApp : public ofBaseApp{
 
@@ -15,6 +16,8 @@ public:
     void draw_game_over();
     void draw_pause();
     void draw_game_start();
+    void restart();
+    bool collided();
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -41,4 +44,5 @@ private:
     Ghost ghost4;
     
     bool can_move;
+    ofSoundPlayer sound_player;
 };
