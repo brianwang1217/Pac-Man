@@ -5,6 +5,8 @@
 #include "Ghost.hpp"
 #include "Board.hpp"
 #include <cmath>
+#include "ofxBaseGui.h"
+#include "ofxButton.h"
 
 class ofApp : public ofBaseApp{
 
@@ -42,7 +44,11 @@ private:
     Ghost ghost2;
     Ghost ghost3;
     Ghost ghost4;
-    
+        
     bool can_move;
     ofSoundPlayer sound_player;
+    ofColor button_color;
+    //ofxBaseGui start_screen;
+    //ofxButton start_button;
+    int frame_count;
 };

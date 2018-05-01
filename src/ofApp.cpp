@@ -16,6 +16,19 @@ void ofApp::setup(){
     
     is_paused = false;
     game_over = false;
+    
+    sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_beginning.wav", true);
+    sound_player.play();
+    
+    frame_count = 0;
+    
+    // Using ofxGui, add a start button.
+    //start_button.setup("start", 100, 30);
+    
+    button_color = ofColor(0, 0, 255);
+    //start_button.setBackgroundColor(button_color);
+    //start_button.setPosition(ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2 - 15);
+    //start_screen.setBackgroundColor(yellow);
 }
 
 //--------------------------------------------------------------
@@ -26,63 +39,77 @@ void ofApp::update(){
     ghost3.update();
     ghost4.update();
     
-    
-    // If player collides with a ghost.
-    if (collided()) {
-        player.lives -= 1;
-        
-        // Play death sound effect.
-        sound_player.load("death_sound", false);
-        sound_player.play();
-        sound_player.unload();
-        
-        // If player has enough lives to continue.
-        if (player.lives > 0) {
-            player.reset();
-            //player.update();
-        } else {
-            game_over = true;
-        }
-    }
-    
-    // While game is in progress and player can move in direction.
-    if (game_started && !game_over && can_move) {
-        
-        // Check if player collides with dotted block.
-        if (board_obj.num_dots[player.pos_y][player.pos_x] == 1) {
-            player.score += 1;
-            board_obj.num_dots[player.pos_y][player.pos_x] = 0;
+    // If the player dies, frame_count is increased from 0 to 1 and game no longer updates.
+    // This is to ensure a respawn timer that lasts 15 updates; the ghosts are not affected, but everything else is.
+    if (frame_count == 0) {
+        // While game is in progress.
+        if (game_started && !is_paused && !game_over) {
+            // If player collides with a ghost.
+            if (collided()) {
+                player.lives -= 1;
+                
+                // Play death sound effect.
+                sound_player.unload();
+                sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_death.wav", true);
+                sound_player.play();
+                
+                frame_count++;
+                
+                // If player has enough lives to continue.
+                if (player.lives > 0) {
+                    player.reset();
+                    //player.update();
+                } else {
+                    game_over = true;
+                }
+            }
             
-            // Play eating sound effect.
-            sound_player.load("eat_sound",  false);
-            sound_player.play();
-            sound_player.unload();
-        } else {
-            // Play moving sound effect.
-            sound_player.load("move_sound", false);
-            sound_player.play();
-            sound_player.unload();
-        }
-        
-        // Check if player collides with refresh power-up.
-        if (player.pos_y == board_obj.refresh_y && player.pos_x == board_obj.refresh_x) {
-            // If collides, readd dots to the board.
-            board_obj.refresh_board();
-            board_obj.has_refreshed = true;
-        }
+            // While player can move in direction.
+            if (can_move) {
+                
+                // Check if player collides with dotted block.
+                if (board_obj.num_dots[player.pos_y][player.pos_x] == 1) {
+                    player.score += 1;
+                    board_obj.num_dots[player.pos_y][player.pos_x] = 0;
+                    
+                    // Play eating sound effect.
+                    sound_player.unload();
+                    sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_chomp.wav",  true);
+                    sound_player.play();
+                } else {
+                    // Play moving sound effect.
+                    //sound_player.unload();
+                    //sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_move.wav", true);
+                    //sound_player.play();
+                }
+                
+                // Check if player collides with refresh power-up.
+                if (player.pos_y == board_obj.refresh_y && player.pos_x == board_obj.refresh_x) {
+                    // If collides, readd dots to the board.
+                    board_obj.refresh_board();
+                    board_obj.has_refreshed = true;
+                }
 
-        player.update();
+                player.update();
+            }
+            
+            // Gets player direction, and checks if player can continue moving in that direction.
+            if (player.current_direction == player.up) {
+                can_move = player.can_move(Player::up);
+            } else if (player.current_direction == player.down) {
+                can_move = player.can_move(Player::down);
+            } else if (player.current_direction == player.left) {
+                can_move = player.can_move(Player::left);
+            } else if (player.current_direction == player.right) {
+                can_move = player.can_move(Player::right);
+            }
+        }
+    } else {
+        frame_count++;
     }
     
-    // Gets player direction, and checks if player can continue moving in that direction.
-    if (player.current_direction == player.up) {
-        can_move = player.can_move(Player::up);
-    } else if (player.current_direction == player.down) {
-        can_move = player.can_move(Player::down);
-    } else if (player.current_direction == player.left) {
-        can_move = player.can_move(Player::left);
-    } else if (player.current_direction == player.right) {
-        can_move = player.can_move(Player::right);
+    if (frame_count == 15) {
+        frame_count = 0;
     }
 }
 
@@ -194,6 +221,10 @@ bool ofApp::collided() {
 void ofApp::draw_game_start() {
     string start_message = "PAC-MAN\nPress 'B' to begin.";
     ofSetColor(100, 100, 100);
+    
+    //start_screen.draw();
+    //start_button.draw();
+    
     ofDrawBitmapString(start_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
 }
 
@@ -223,20 +254,28 @@ void ofApp::keyPressed(int key){
     int upper_key = toupper(key);
     
     // WASD for standard movement controls.
-    // B for begin, P for pause.
-    if (upper_key == 'W') {
-        player.move_up();
-    } else if (upper_key == 'A') {
-        player.move_left();
-    } else if (upper_key == 'S') {
-        player.move_down();
-    } else if (upper_key == 'D') {
-        player.move_right();
-    } else if (upper_key == 'B' && !game_started) {
+    // B for begin, P for pause, R for restart.
+    if (upper_key == 'B' && !game_started) {
         game_started = true;
-    } else if (upper_key == 'P') {
+    }
+    
+    if (upper_key == 'P') {
         is_paused = !is_paused;
-    } else if (upper_key == 'R') {
+    }
+    
+    if (game_started && !is_paused) {
+        if (upper_key == 'W') {
+            player.move_up();
+        } else if (upper_key == 'A') {
+            player.move_left();
+        } else if (upper_key == 'S') {
+            player.move_down();
+        } else if (upper_key == 'D') {
+            player.move_right();
+        }
+    }
+    
+    if (upper_key == 'R' && game_over) {
         restart();
     }
 }
@@ -275,12 +314,17 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-    
+    /**
+    if (!game_started
+        && (x >= ofGetWindowWidth() / 2 - 50 && x <= ofGetWindowWidth() / 2 + 50)
+        && (y >= ofGetWindowHeight() / 2 - 15 && x <= ofGetWindowHeight() / 2 + 15)) {
+        game_started = true;
+    }*/
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
-    
+
 }
 
 //--------------------------------------------------------------
