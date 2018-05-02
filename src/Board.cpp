@@ -51,16 +51,17 @@ Board::Board() {
     open_block_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/empty_block.png");
     dot_block_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/dot_block.png");
     refresh_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/refresh.png");
-    slow_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/clock.png");
+    oneup_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/oneup_img.png");
     
     // Resize image for board.
     wall_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     open_block_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     dot_block_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     refresh_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
-    slow_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
+    oneup_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     
     has_refreshed = true;
+    oneup_exists = false;
 }
 
 /*:
@@ -68,7 +69,7 @@ Board::Board() {
  */
 void Board::draw_board() {
     // If there are no dots left, draw refresh power up at random xy coord.
-    if (count_dots() == 0) {
+    if (count_dots() == 2 && has_refreshed) {
         has_refreshed = false;
         refresh_x = rand() % 28;
         refresh_y = rand() % 30;
@@ -76,6 +77,18 @@ void Board::draw_board() {
         while (board[refresh_y][refresh_x] != o) {
             refresh_x = rand() % 28;
             refresh_y = rand() % 30;
+        }
+    }
+    
+    // Randomly generate one-up power-up.
+    if (rand() % 500 == 1 && !oneup_exists) {
+        oneup_exists = true;
+        oneup_x = rand() % 28;
+        oneup_y = rand() % 30;
+        
+        while (board[oneup_y][oneup_x] != o) {
+            oneup_x = rand() % 28;
+            oneup_y = rand() % 30;
         }
     }
         
@@ -88,15 +101,20 @@ void Board::draw_board() {
                 // If open block is empty.
                 if (num_dots[i][j] == 0) {
                     open_block_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
-                    
-                    // If these are the xy coords for the refresh power-up, draw it.
-                    if (refresh_x == j && refresh_y == i) {
-                        refresh_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
-                    }
                 }
                 // If open block contains a dot on it.
                 else {
                     dot_block_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
+                }
+                
+                // If these are the xy coords for the refresh power-up, draw it.
+                if (refresh_x == j && refresh_y == i) {
+                    refresh_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
+                }
+                
+                // Draw one-up power up if it exists on this coordinate.
+                if (oneup_exists && oneup_x == j && oneup_y == i) {
+                    oneup_img.draw(j * ofGetWindowWidth() / 28, i * ofGetWindowHeight() / 30);
                 }
             }
         }
@@ -119,6 +137,7 @@ int Board::count_dots() {
             dot_count += num_dots[i][j];
         }
     }
+    //std::cout << dot_count << std::endl;
     return dot_count;
 }
 
@@ -129,6 +148,7 @@ void Board::refresh_board() {
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 28; j++) {
             num_dots[i][j] = num_dots_copy[i][j];
+            has_refreshed = true;
         }
     }
 }
