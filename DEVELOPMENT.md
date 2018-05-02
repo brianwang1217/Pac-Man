@@ -6,3 +6,6 @@
   
 - constexpr static board[][] issue: couldn't access board 2D array in ofApp.cpp (no such architecture, etc.)
   - made it an extern variable in .hpp file and initialized it in the .cpp file.
+
+- When Pac-Man wasn't moving, the ghosts wouldn't move either.
+  - update() for the ghosts was called in method-encompassing if statement that checked if game was in progress and Pac-Man could move; ended up moving update() outside and before the if statement.
