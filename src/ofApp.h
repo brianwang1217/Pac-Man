@@ -45,7 +45,9 @@ private:
     Ghost ghost2;
     Ghost ghost3;
     Ghost ghost4;
-        
+    
+    int high_score;
+    
     bool can_move;
     ofSoundPlayer sound_player;
     int frame_count;
