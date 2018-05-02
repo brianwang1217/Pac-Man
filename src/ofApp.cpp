@@ -21,14 +21,6 @@ void ofApp::setup(){
     sound_player.play();
     
     frame_count = 0;
-    
-    // Using ofxGui, add a start button.
-    //start_button.setup("start", 100, 30);
-    
-    button_color = ofColor(0, 0, 255);
-    //start_button.setBackgroundColor(button_color);
-    //start_button.setPosition(ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2 - 15);
-    //start_screen.setBackgroundColor(yellow);
 }
 
 //--------------------------------------------------------------
@@ -220,11 +212,8 @@ bool ofApp::collided() {
  */
 void ofApp::draw_game_start() {
     string start_message = "PAC-MAN\nPress 'B' to begin.";
-    ofSetColor(100, 100, 100);
-    
-    //start_screen.draw();
-    //start_button.draw();
-    
+    board_obj.draw_board();
+    ofSetColor(255, 255, 0);
     ofDrawBitmapString(start_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
 }
 
@@ -234,8 +223,9 @@ void ofApp::draw_game_start() {
 void ofApp::draw_game_over() {
     string lose_message = "You Lost! Final Score: " + std::to_string(player.score) + "\nPress 'R' to play again.";
     
-    ofSetColor(0, 0, 0);
-    ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
+    ofSetColor(0, 0, 255);
+    
+    ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2 - 100, ofGetWindowHeight() / 2);
 }
 
 /*:

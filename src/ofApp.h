@@ -7,6 +7,7 @@
 #include <cmath>
 #include "ofxBaseGui.h"
 #include "ofxButton.h"
+#include "ofGraphics.h"
 
 class ofApp : public ofBaseApp{
 
@@ -47,8 +48,7 @@ private:
         
     bool can_move;
     ofSoundPlayer sound_player;
-    ofColor button_color;
-    //ofxBaseGui start_screen;
-    //ofxButton start_button;
     int frame_count;
+    ofColor yellow;
+    ofColor blue;
 };

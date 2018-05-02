@@ -78,7 +78,7 @@ void Board::draw_board() {
             refresh_y = rand() % 30;
         }
     }
-    
+        
     // Draw wall if 'w'; if 'o', draw either dotted or empty open block.
     for (int i = 0; i < 30; i++) {
         for (int j = 0; j < 28; j++) {
