@@ -21,10 +21,16 @@ void ofApp::setup(){
     sound_player.play();
     
     frame_count = 0;
+    high_score = 0;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
+    // Make sure to unload the sound player if nothing is playing, so no differing sounds overlap.
+    if (!sound_player.isPlaying()) {
+        sound_player.unload();
+    }
     
     ghost1.update();
     ghost2.update();
@@ -44,6 +50,9 @@ void ofApp::update(){
                 sound_player.unload();
                 sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_death.wav", true);
                 sound_player.play();
+                if (!sound_player.isPlaying()) {
+                    sound_player.unload();
+                }
                 
                 frame_count++;
                 
@@ -65,24 +74,43 @@ void ofApp::update(){
                     board_obj.num_dots[player.pos_y][player.pos_x] = 0;
                     
                     // Play eating sound effect.
-                    sound_player.unload();
-                    sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_chomp.wav",  true);
-                    sound_player.play();
+                    //sound_player.unload();
+                    if (!sound_player.isLoaded()) {
+                        sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_chomp.wav",  true);
+                        sound_player.setSpeed(1.25);
+                        sound_player.play();
+                    }
+                    
                 } else {
                     // Play moving sound effect.
                     //sound_player.unload();
                     //sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_move.wav", true);
                     //sound_player.play();
                 }
-                
-                // Check if player collides with refresh power-up.
-                if (player.pos_y == board_obj.refresh_y && player.pos_x == board_obj.refresh_x) {
-                    // If collides, readd dots to the board.
-                    board_obj.refresh_board();
-                    board_obj.has_refreshed = true;
-                }
 
                 player.update();
+            }
+            
+            // Check if player collides with refresh power-up.
+            if (player.pos_y == board_obj.refresh_y && player.pos_x == board_obj.refresh_x) {
+                // If collides, readd dots to the board.
+                board_obj.refresh_board();
+                board_obj.has_refreshed = true;
+            }
+            
+            // Check if player collides with oneup power-up.
+            if (player.pos_y == board_obj.oneup_y && player.pos_x == board_obj.oneup_x) {
+                sound_player.unload();
+                sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/smb_1-up.wav", true);
+                sound_player.play();
+                if (!sound_player.isPlaying()) {
+                    sound_player.unload();
+                }
+                board_obj.oneup_exists = false;
+                board_obj.oneup_x = -1;
+                board_obj.oneup_y = -1;
+                
+                player.lives++;
             }
             
             // Gets player direction, and checks if player can continue moving in that direction.
@@ -221,11 +249,16 @@ void ofApp::draw_game_start() {
     Draw game over menu GUI for game.
  */
 void ofApp::draw_game_over() {
+    if (player.score > high_score) {
+        high_score = player.score;
+    }
     string lose_message = "You Lost! Final Score: " + std::to_string(player.score) + "\nPress 'R' to play again.";
+    string high_score_message = "Your Highest Score: \n" + std::to_string(high_score);
     
     ofSetColor(0, 0, 255);
     
     ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2 - 100, ofGetWindowHeight() / 2);
+    ofDrawBitmapString(high_score_message, ofGetWindowWidth() / 2 - 75, ofGetWindowHeight() / 2 + 50);
 }
 
 /*:
@@ -234,8 +267,8 @@ void ofApp::draw_game_over() {
 void ofApp::draw_pause() {
     string pause_message = "Paused. Your current score: " + std::to_string(player.score);
     string stat_message = "Lives: " + std::to_string(player.lives) + "\nScore: " + std::to_string(player.score);
-    ofSetColor(0, 0, 0);
     
+    board_obj.draw_board();
     ofDrawBitmapString(pause_message + "\n" + stat_message, ofGetWindowWidth() / 2 - 50, ofGetWindowHeight() / 2);
 }
 
