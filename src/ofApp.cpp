@@ -255,7 +255,7 @@ void ofApp::draw_game_over() {
     string lose_message = "You Lost! Final Score: " + std::to_string(player.score) + "\nPress 'R' to play again.";
     string high_score_message = "Your Highest Score: \n" + std::to_string(high_score);
     
-    ofSetColor(0, 0, 255);
+    //ofSetColor(0, 0, 255);
     
     ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2 - 100, ofGetWindowHeight() / 2);
     ofDrawBitmapString(high_score_message, ofGetWindowWidth() / 2 - 75, ofGetWindowHeight() / 2 + 50);

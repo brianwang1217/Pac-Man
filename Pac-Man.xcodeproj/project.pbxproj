@@ -11,6 +11,7 @@
 		25069F8F2092A9BA00D7FD17 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25069F8D2092A9BA00D7FD17 /* Player.cpp */; };
 		25069F922092A9F500D7FD17 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25069F902092A9F500D7FD17 /* Board.cpp */; };
 		25069F952092AA1800D7FD17 /* Ghost.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25069F932092AA1800D7FD17 /* Ghost.cpp */; };
+		25D44BB1209A8FAA008A6AE2 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25D44BAF209A8FAA008A6AE2 /* tests.cpp */; };
 		483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78D67A00EB899FAC09430597 /* ofxLabel.cpp */; };
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
 		837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15F2C6477A769C03A56D1401 /* ofxSlider.cpp */; };
@@ -74,6 +75,7 @@
 		2570AA402099F7A400079A41 /* oneup_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = oneup_img.png; sourceTree = "<group>"; };
 		25A46EB720982BD700647CFC /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 		25D44BAE209A8E37008A6AE2 /* catch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
+		25D44BAF209A8FAA008A6AE2 /* tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = tests.cpp; sourceTree = "<group>"; };
 		25DC3EE62096C53300E481D1 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		25DC3EE72096C57900E481D1 /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				25D44BAE209A8E37008A6AE2 /* catch.hpp */,
+				25D44BAF209A8FAA008A6AE2 /* tests.cpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				25069F952092AA1800D7FD17 /* Ghost.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				25069F8F2092A9BA00D7FD17 /* Player.cpp in Sources */,
+				25D44BB1209A8FAA008A6AE2 /* tests.cpp in Sources */,
 				25069F922092A9F500D7FD17 /* Board.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
