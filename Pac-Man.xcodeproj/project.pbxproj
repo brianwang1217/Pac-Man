@@ -73,6 +73,7 @@
 		25069FAB2094167C00D7FD17 /* wall_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wall_block.png; sourceTree = "<group>"; };
 		2570AA402099F7A400079A41 /* oneup_img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = oneup_img.png; sourceTree = "<group>"; };
 		25A46EB720982BD700647CFC /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
+		25D44BAE209A8E37008A6AE2 /* catch.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = catch.hpp; sourceTree = "<group>"; };
 		25DC3EE62096C53300E481D1 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		25DC3EE72096C57900E481D1 /* clock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clock.png; sourceTree = "<group>"; };
 		2834D88A62CD23F3DE2C47D1 /* ofxButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxButton.h; path = ../../../addons/ofxGui/src/ofxButton.h; sourceTree = SOURCE_ROOT; };
@@ -126,6 +127,14 @@
 				25069FA520933F8100D7FD17 /* redghost.png */,
 			);
 			path = images;
+			sourceTree = "<group>";
+		};
+		25D44BAD209A8D39008A6AE2 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				25D44BAE209A8E37008A6AE2 /* catch.hpp */,
+			);
+			path = tests;
 			sourceTree = "<group>";
 		};
 		480A780D8D0308AE4A368801 /* ofxGui */ = {
@@ -186,6 +195,7 @@
 		E4B69B4A0A3A1720003C02F2 = {
 			isa = PBXGroup;
 			children = (
+				25D44BAD209A8D39008A6AE2 /* tests */,
 				25A46EB720982BD700647CFC /* sounds */,
 				25069F9D20933F0800D7FD17 /* images */,
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,

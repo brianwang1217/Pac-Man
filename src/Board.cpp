@@ -137,7 +137,7 @@ int Board::count_dots() {
             dot_count += num_dots[i][j];
         }
     }
-    std::cout << dot_count << std::endl;
+    //std::cout << dot_count << std::endl;
     return dot_count;
 }
 
