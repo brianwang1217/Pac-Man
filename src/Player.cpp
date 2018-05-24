@@ -25,13 +25,13 @@ Player::Player(int x, int y) {
     current_direction = left;
     
     // Load images and resize them to fit the screen.
-    pacman_left.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacleft.png");
+    pacman_left.load("/images/pacleft.png");
     pacman_left.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
-    pacman_right.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacright.png");
+    pacman_right.load("/images/pacright.png");
     pacman_right.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
-    pacman_up.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacup.png");
+    pacman_up.load("/images/pacup.png");
     pacman_up.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
-    pacman_down.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/pacdown.png");
+    pacman_down.load("/images/pacdown.png");
     pacman_down.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
     
     // Other statistics to keep track of.
