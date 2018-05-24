@@ -17,7 +17,7 @@ void ofApp::setup(){
     is_paused = false;
     game_over = false;
     
-    sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_beginning.wav", true);
+    sound_player.load("/sounds/pacman_beginning.wav", true);
     sound_player.play();
     
     frame_count = 0;
@@ -48,7 +48,7 @@ void ofApp::update(){
                 
                 // Play death sound effect.
                 sound_player.unload();
-                sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_death.wav", true);
+                sound_player.load("/sounds/pacman_death.wav", true);
                 sound_player.play();
                 if (!sound_player.isPlaying()) {
                     sound_player.unload();
@@ -76,7 +76,7 @@ void ofApp::update(){
                     // Play eating sound effect.
                     //sound_player.unload();
                     if (!sound_player.isLoaded()) {
-                        sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_chomp.wav",  true);
+                        sound_player.load("/sounds/pacman_chomp.wav",  true);
                         sound_player.setSpeed(1.25);
                         sound_player.play();
                     }
@@ -84,7 +84,7 @@ void ofApp::update(){
                 } else {
                     // Play moving sound effect.
                     //sound_player.unload();
-                    //sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/pacman_move.wav", true);
+                    //sound_player.load("/sounds/pacman_move.wav", true);
                     //sound_player.play();
                 }
 
@@ -101,7 +101,7 @@ void ofApp::update(){
             // Check if player collides with oneup power-up.
             if (player.pos_y == board_obj.oneup_y && player.pos_x == board_obj.oneup_x) {
                 sound_player.unload();
-                sound_player.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/sounds/smb_1-up.wav", true);
+                sound_player.load("/sounds/smb_1-up.wav", true);
                 sound_player.play();
                 if (!sound_player.isPlaying()) {
                     sound_player.unload();
