@@ -47,11 +47,11 @@ block_type board[30][28] =
  */
 Board::Board() {
     // Load images.
-    wall_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/wall_block.png");
-    open_block_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/empty_block.png");
-    dot_block_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/dot_block.png");
-    refresh_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/refresh.png");
-    oneup_img.load("/Users/bwang/of_v0.9.8_osx_release/apps/myApps/Pac-Man/images/oneup_img.png");
+    wall_img.load("/images/wall_block.png");
+    open_block_img.load("/images/empty_block.png");
+    dot_block_img.load("/images/dot_block.png");
+    refresh_img.load("/images/refresh.png");
+    oneup_img.load("/images/oneup_img.png");
     
     // Resize image for board.
     wall_img.resize(ofGetWindowWidth() / 28, ofGetWindowHeight() / 30);
